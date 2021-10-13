@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.online {
+    color: green;
+}
+
+.offline {
+    color: red;
+}
+
+p {
+    position: relative;
+    max-width: 200px;
+    margin: 15px;
+    padding: 0 5px;
+}
+
+p,
+span {
+    /* padding: 10px 15px; */
+    cursor: pointer;
+}
+
+span {
+    position: absolute;
+    right: 0;
+    font-size: 0.5rem;
+    padding: 2.5px 5px;
+}
+
+p:hover {
+    background-color: darkkhaki;
+}
+
+span:hover {
+    background-color: black;
+}
+
+.input_container {
+    position: relative;
+    top: 50px;
+    left: 25px;
+}

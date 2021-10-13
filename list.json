@@ -1,0 +1,20 @@
+[{
+        "name": "zoli",
+        "online": true,
+        "id": 1
+    },
+    {
+        "name": "eva",
+        "online": true,
+        "id": 2
+    },
+    {
+        "name": "many",
+        "online": false,
+        "id": 3
+    }, {
+        "name": "lali",
+        "online": false,
+        "id": 4
+    }
+]
