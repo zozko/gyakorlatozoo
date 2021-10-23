@@ -1,5 +1,6 @@
 const btn = document.querySelector('button');
 const numInput = document.getElementById('numInput');
+const picsWrapper = document.getElementById('pics');
 const url = 'https://randomuser.me/api/?results=';
 let userArray = [];
 
@@ -73,7 +74,16 @@ function show() {
     userArray.forEach(elem => {
         let infoHolder = document.createElement('div');
         infoHolder.innerHTML = `<p> name: ${elem.name.title} ${elem.name.first}, ${elem.name.last} from ${elem.location.country} (age: ${elem.dob.age});</p>`;
+        infoHolder.style.cursor = 'pointer';
         wrapper.append(infoHolder);
+        infoHolder.addEventListener('click', () => {
+            let pictURL = elem.picture.large;
+            let foto = document.createElement('img');
+            foto.classList.add('fotoframe');
+            console.log(pictURL);
+            foto.setAttribute('src', pictURL);
+            picsWrapper.append(foto);
+        });
     });
     let ruler = document.createElement('hr');
     wrapper.append(ruler);
