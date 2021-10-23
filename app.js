@@ -2,6 +2,8 @@
 const displayWrapper = document.querySelector('div');
 const URL = "list.json";
 let members = [];
+localStorage.clear();
+localStorage.setItem('proba', 'wazze');
 
 let inputButton = document.querySelector('button');
 
@@ -19,12 +21,13 @@ inputButton.addEventListener('click', () => {
             name: inputedName,
             online: true,
             id: signedMemeberAddID
-        }
+        };
+
         members.push(signedMemeber);
         addMemeber(signedMemeber);
         inputFiled.value = '';
     } else {
-        console.log('NO - OK');
+        // console.log('NO - OK');
         inputFiled.value = '';
         alert('enter valid name');
     }
@@ -37,9 +40,10 @@ function readMembers() {
         // console.log(data);
         data.forEach((element, index) => {
             members.splice(index, 1, element);
+            // localStorage.setItem('cislo' + JSON.stringify(index), JSON.stringify(element)); //`${element.name},${element.online}, ${element.id}`);
         })
         showOnWeb(members);
-
+        // localStorage.clear();
     })
 }
 
@@ -54,15 +58,15 @@ function showOnWeb(membersArr) {
         newMember.textContent = elem.name;
         span.innerHTML = '&#x2715';
         newMember.append(span);
-        actual(newMember, elem);
+        actual(newMember, elem, index);
         displayWrapper.append(newMember);
-        toggler(newMember, elem);
+        toggler(newMember, elem, index);
         spanToggler(span, index);
 
     })
 }
 
-function toggler(targetElem, elemObj) {
+function toggler(targetElem, elemObj, index) {
     console.log(targetElem, elemObj);
     targetElem.addEventListener('click', (e) => {
         if (elemObj.online) {
@@ -72,19 +76,22 @@ function toggler(targetElem, elemObj) {
         }
 
         console.log(elemObj.online);
-        actual(targetElem, elemObj);
-
+        actual(targetElem, elemObj, index);
+        // e.stopPropagate();
 
     });
 }
 
-function actual(tag, elemObj) {
-    console.log(elemObj);
+function actual(tag, elemObj, index) {
+    console.log('actualizalom az elemet', elemObj, 'es indexet ', index);
     tag.classList = null;
     if (elemObj.online) {
         tag.classList.add('online');
+        localStorage.setItem('cislo' + JSON.stringify(index), JSON.stringify(elemObj)); //`${elemObj.name},${elemObj.online},${elemObj.id}`);
     } else {
         tag.classList.add('offline');
+        localStorage.setItem('cislo' + JSON.stringify(index), JSON.stringify(elemObj));
+        //`${elemObj.name},${elemObj.online},${elemObj.id}`);
     }
     console.log(members);
 }
@@ -94,18 +101,26 @@ function spanToggler(tag, arrIndex) {
     // console.log('index', arrIndex);
     tag.addEventListener('click', (e) => {
 
+        console.log('a torles indexe', arrIndex);
         let parentElem = tag.parentElement;
 
         parentElem.remove();
 
         members.splice(arrIndex, 1);
 
+        // let indexToRemove = arrIndex.toString();
+        // console.log(indexToRemove);
+        localStorage.removeItem('cislo' + JSON.stringify(arrIndex));
+        // localStorage.removeItem('proba');
+
     });
+
 }
 
 
 function getID() {
     let idS = []
+    if (members.length === 0) { return 1 }
     for (let i = 0; i < members.length; i++) {
         let existID = members[i].id;
         console.log('letezo ID:', existID);
@@ -122,7 +137,8 @@ function addMemeber(memberObj) {
     span.innerHTML = '&#x2715';
     newMember.append(span);
     displayWrapper.append(newMember);
-    toggler(newMember, memberObj);
+    toggler(newMember, memberObj, members.length - 1);
+    actual(newMember, memberObj, members.length - 1);
     spanToggler(span, members[members.length]);
-    actual(newMember, memberObj);
+    // localStorage.setItem(members.length - 1, `${memberObj.name},${memberObj.online}, ${memberObj.id}`);
 }
