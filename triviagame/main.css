@@ -1,0 +1,15 @@
+*,
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+.menu_View {
+    display: inline-block;
+    width: calc((100vw / 6) - 2px);
+    height: 40px;
+    font-size: 0.6rem;
+    background-color: blue;
+    color: #ddd;
+}
