@@ -6,6 +6,8 @@ let gameQuestions;
 let level = '';
 let playersScore = 0;
 let questionNum = 0;
+let answerArr = [];
+let shuffledAnsw = [];
 
 
 
@@ -32,7 +34,7 @@ selection.addEventListener('change', function(el) {
 
 
 //menu
-let menuData = async function() {
+let menuData = async function start() {
     let menuTxt;
     await fetch(baseURL + 'api_category.php')
         .then(res => res.json())
@@ -131,6 +133,16 @@ function turnOffMenuButtons() {
 }
 
 function showInfoBlock() {
+    if (questionNum >= gameQuestions.length) {
+
+        let newGame = confirm('new game?');
+        if (newGame) {
+            window.location.reload();
+        } else {
+            alert('GAME OVER');
+        }
+
+    }
     console.info('INFOABLAK KESZITESE...');
     let infoBlock = document.createElement('div');
     infoBlock.classList.add('info_display');
@@ -145,6 +157,14 @@ function showInfoBlock() {
     difficulty.textContent = `difficulty: ${gameQuestions[questionNum].difficulty}`;
     infoBlock.append(difficulty);
 
+
+    let players = document.createElement('span');
+    players.classList.add('players_score');
+    players.textContent = `score: ${playersScore} / 100`;
+    infoBlock.append(players);
+
+
+
     let question = document.createElement('h1');
     question.classList.add('question_Text');
     question.textContent = `question: ${gameQuestions[questionNum].question}`;
@@ -155,27 +175,84 @@ function showInfoBlock() {
 
 
 function showAnswersBox() {
+    shuffleAnswers();
     let answersBox = document.createElement('div');
     answersBox.classList.add('answe_holder');
     quizeHolder.append(answersBox);
 
-    let answ1 = document.createElement('button');
-    answ1.classList.add('answerBtn');
-    answ1.innerHTML = gameQuestions[questionNum].correct_answer;
-    answersBox.append(answ1);
+    // let answ1 = document.createElement('button');
+    // answ1.classList.add('answerBtn');
+    // answ1.innerHTML = gameQuestions[questionNum].correct_answer;
+    // answersBox.append(answ1);
 
-    answ1.addEventListener('click',
-        showInfoBlock);
+    // answ1.addEventListener('click',
+    //     showInfoBlock);
 
-    for (let i = 0; i < gameQuestions[questionNum].incorrect_answers.length; i++) {
+    for (let i = 0; i < shuffledAnsw.length; i++) {
         let answBtn = document.createElement('button');
         answBtn.classList.add('answerBtn');
-        answBtn.innerHTML = gameQuestions[questionNum].incorrect_answers[i];
+        answBtn.innerHTML = shuffledAnsw[i];
+        answBtn.value = shuffledAnsw[i];
         answersBox.append(answBtn);
 
-        answBtn.addEventListener('click',
-            showInfoBlock);
+        answBtn.addEventListener('click', () => {
+            // console.log('lenyomott gomb valasza: ', answBtn.value);
+            // console.log('a jo valasz: ', gameQuestions[questionNum - 1].correct_answer);
+            if (gameQuestions[questionNum - 1].correct_answer === answBtn.value) {
+                playersScore += 10;
+            } else {
+                markKorrektAnsw();
+                alert('wrong answer');
+            }
+            showInfoBlock();
+        })
     }
 
     questionNum++;
+}
+
+
+function shuffleAnswers() {
+    let adding = true;
+    answerArr.length = 0;
+    shuffledAnsw.length = 0;
+    answerArr.push(gameQuestions[questionNum].correct_answer);
+    for (let i = 0; i < gameQuestions[questionNum].incorrect_answers.length; i++) {
+        answerArr.push(gameQuestions[questionNum].incorrect_answers[i]);
+    }
+
+    console.log('sorba valaszok tomb: ', answerArr);
+
+    while (adding) {
+        let randomNum = Math.floor(Math.random() * answerArr.length);
+        if (!shuffledAnsw.includes(answerArr[randomNum])) {
+            shuffledAnsw.push(answerArr[randomNum]);
+        }
+
+        if (shuffledAnsw.length === answerArr.length) {
+            adding = false;
+        }
+    }
+
+    console.log('veletlen sorrend tomb ', shuffledAnsw);
+
+
+}
+
+
+function markKorrektAnsw() {
+    let buttonArr = [];
+    buttonsArr = [...document.getElementsByClassName('answerBtn')];
+    console.log(buttonsArr, gameQuestions[questionNum - 1].correct_answer);
+
+
+    for (let i = 0; i < buttonsArr.length; i++) {
+        console.log(buttonsArr[i].value);
+        if (buttonsArr[i].value === gameQuestions[questionNum - 1].correct_answer) {
+            console.log(`a helyes valasz a ${i}. helyen van a tombben ${buttonsArr[i]}`);
+            buttonsArr[i].style.backgroundColor = ' #008000';
+        }
+    }
+
+
 }

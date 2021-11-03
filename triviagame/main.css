@@ -61,3 +61,11 @@ option[value="hard"] {
     background-color: #0000ff;
     color: #ddd;
 }
+
+.players_score {
+    position: fixed;
+    top: 70px;
+    right: 30px;
+    font-weight: 600;
+    color: #9c2c3f
+}
