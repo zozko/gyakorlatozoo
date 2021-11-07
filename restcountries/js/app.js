@@ -27,6 +27,7 @@ function loadData() {
 
             });
             pageTogglerCreator();
+            showPage(null);
         })
 }
 
@@ -69,10 +70,18 @@ function createNode(parentNode, nodeType, nodeContent) {
 }
 
 function showPage(event) {
-    let pages = event.target.textContent - 1;
-    let workArr = [...pagesArr[pages]];
+    let pages = 0;
+    let workArr;
+    console.log('bejovo:', event, workArr);
+    console.log(pagesArr[pages]);
+    if (event != null) {
+        pages = event.target.textContent - 1;
+        workArr = [...pagesArr[pages]];
+    } else {
+        workArr = [...pagesArr[pages]];
+    }
     console.log(workArr);
-    console.log('oldalszama  ', event.target.textContent);
+    // console.log('oldalszama  ', event.target.textContent);
     console.log('ezt az oldalt fogom kitenni: ', workArr);
 
     if (contentDiv) {
@@ -95,7 +104,7 @@ function showPage(event) {
 
 
 
-        let countryName = createNode(countryBox, 'p', `<h2>${workArr[i].name.official}</h2>`);
+        let countryName = createNode(countryBox, 'p', `<h2>${workArr[i].name.official} <span>(${workArr[i].name.common})</span></h2>`);
         let countryCapital = createNode(countryBox, 'p', workArr[i].capital[0]);
         let countryPopulation = createNode(countryBox, 'p', `population:${workArr[i].population}`);
         countryPopulation.classList.add('display_p');
@@ -105,6 +114,7 @@ function showPage(event) {
         // console.log(currencyMark);
         let currency = createNode(countryBox, 'p', `currencies: <span>${currenciesObj[0].name}</span>  symbol: <span>${currenciesObj[0].symbol}</span>`);
         currency.classList.add('display_p');
+
 
 
     }

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
 * {
     box-sizing: border-box;
+    color: #555;
     font-family: 'DM Sans', sans-serif;
 }
 
@@ -46,6 +47,7 @@
     padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
+    box-shadow: 0px 2px 6px #aaaaaad0;
     border-radius: 12px;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -78,6 +80,7 @@
     margin: 0;
 }
 
+h2>span,
 .display_p span {
     font-weight: bolder;
     font-size: 0.68rem;
