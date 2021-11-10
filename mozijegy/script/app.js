@@ -2,6 +2,7 @@ const baseURL = 'https://kodbazis.hu/api/movies';
 const menu = document.getElementsByClassName('menu_wrapper')[0];
 let cinemaData = [];
 let roomNum = 0;
+let movieTitle = '';
 
 async function loadData() {
     await fetch(baseURL)
@@ -38,6 +39,18 @@ function makeMenu() {
     selectTag.addEventListener('change', (e) => {
         roomNum = e.target.value;
         console.log('a terem szama', roomNum);
+
+        if (movieTitle != '') {
+            menu.removeChild(movieTitle);
+        }
+
+        movieTitle = document.createElement('h2');
+        movieTitle.classList.add('film');
+        movieTitle.textContent = cinemaData[roomNum - 1].name;
+        menu.append(movieTitle);
+
+
+
     })
 
 }
