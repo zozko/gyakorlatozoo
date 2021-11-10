@@ -37,13 +37,19 @@ function serachAreaCreator() {
     let inputfield = createNode(searchDiv, 'input', '');
     inputfield.setAttribute('type', 'text');
     inputfield.classList.add('inputFld');
+    inputfield.setAttribute('placeholder', 'type country name');
 
     let inputBtn = createNode(searchDiv, 'button', 'search');
     inputBtn.classList.add('searchBtn');
 
-    inputBtn.addEventListener('click', e => {
+    inputBtn.addEventListener('click', () => {
         console.log(inputfield.value);
+        let inputData = inputfield.value;
         //code hogy mit csinaljon kereseskor....
+        inputfield.value = '';
+        loadEnteredCountry(inputData);
+        // console.log('a keresett orszag', singleCountry);
+
     })
 }
 
@@ -69,18 +75,35 @@ function createNode(parentNode, nodeType, nodeContent) {
     return nodeTag;
 }
 
+
+
+
 function showPage(event) {
     let pages = 0;
     let workArr;
-    console.log('bejovo:', event, workArr);
-    console.log(pagesArr[pages]);
-    if (event != null) {
-        pages = event.target.textContent - 1;
-        workArr = [...pagesArr[pages]];
-    } else {
-        workArr = [...pagesArr[pages]];
+    console.log('kapom ', event);
+    // console.log('bejovo:', typeof(event), event, workArr);
+    // console.log(pagesArr[pages]);
+    try {
+        if (event != null && event.target.textContent !== undefined) {
+            pages = event.target.textContent - 1;
+            workArr = [...pagesArr[pages]];
+            console.log('orszagok ...', workArr);
+        } else {
+            workArr = [...pagesArr[pages]];
+        }
+    } catch (error) {
+        if (event.status === 404) {
+            alert('not found');
+        }
+        console.log('igy ez csak egy orszag', event);
+        workArr = event;
+
+
     }
-    console.log(workArr);
+
+
+
     // console.log('oldalszama  ', event.target.textContent);
     console.log('ezt az oldalt fogom kitenni: ', workArr);
 
@@ -109,7 +132,7 @@ function showPage(event) {
         let countryPopulation = createNode(countryBox, 'p', `population:${workArr[i].population}`);
         countryPopulation.classList.add('display_p');
         let currenciesObj = Object.values(workArr[i].currencies);
-        console.log('a penz OBJ : ', currenciesObj[0]);
+        // console.log('a penz OBJ : ', currenciesObj[0]);
 
         // console.log(currencyMark);
         let currency = createNode(countryBox, 'p', `currencies: <span>${currenciesObj[0].name}</span>  symbol: <span>${currenciesObj[0].symbol}</span>`);
@@ -120,6 +143,19 @@ function showPage(event) {
     }
 
 
+}
+
+function loadEnteredCountry(country) {
+    console.log('a keresett orszag betoltendo...', country);
+    fetch(`https://restcountries.com/v3.1/name/${country}`)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log('keresett orszag adatai: ', data);
+            showPage(data);
+        })
+        // .catch(error => {
+        //     console.error('load country...' + error);
+        // })
 }
 
 
