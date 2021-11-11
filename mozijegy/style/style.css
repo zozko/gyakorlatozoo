@@ -5,3 +5,100 @@ body {
     padding: 0;
     background-color: #ddd;
 }
+
+option,
+select {
+    background-color: #111;
+    color: #ddd
+}
+
+label {
+    margin: 0 1vw;
+}
+
+.film {
+    text-align: center;
+    color: #555
+}
+
+.info_wrapper,
+.seats {
+    position: absolute;
+    display: inline-block;
+    width: 65%;
+    height: 80vh;
+    right: 0;
+    bottom: 5vh;
+    margin: 1vw;
+    background-color: #aaa;
+    border: 1px solid #555
+}
+
+.info_wrapper {
+    width: 30%;
+    /* height: 90vh; */
+    left: 0;
+}
+
+.info_box {
+    background-color: inherit;
+    margin: 1vw;
+}
+
+.seats {
+    padding: 50px;
+}
+
+.room {
+    position: relative;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+    background-color: inherit;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.seat_mark,
+.seat_style {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 5px 15px;
+    cursor: pointer;
+    /* line-height: 1.1rem; */
+    background-color: #00008d;
+    color: #00008d;
+    border-radius: 30%;
+    -webkit-border-radius: 30%;
+    -moz-border-radius: 30%;
+    -ms-border-radius: 30%;
+    -o-border-radius: 30%;
+}
+
+.hide {
+    color: #aaa;
+}
+
+.seat_mark {
+    background-color: inherit;
+    text-align: center;
+    /* font-size: 0.9rem; */
+    /* padding: 3px; */
+    /* color: #00008d; */
+    cursor: default;
+}
+
+.seat_style:hover {
+    background-color: #0606ff;
+    color: #0606ff
+}
