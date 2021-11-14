@@ -7,6 +7,8 @@ let cinemaData = [];
 let roomNum = 0;
 let movieTitle = '';
 let abc = 'abcdefghijklmnopqrstuvwxyz';
+let booked;
+let fizetendo = 0;
 
 
 let rows, columns, freeSeatsInRoom;
@@ -75,6 +77,9 @@ function filmTitle(room) {
 
 
 function filmInfok(film) {
+    if (infoBox) {
+        infoBox.innerHTML = '';
+    }
     let ticketPrice = makeNode(infoBox, 'p', `jegy ára: ${film.price}.-HUF/db`);
     ticketPrice.classList.add('info_box');
 
@@ -91,25 +96,67 @@ function filmInfok(film) {
 
 
 function showSeats(film) {
+    fizetendo = 0;
     let chair = abc.split('');
-    // console.log(chair);
-    let chairMark = makeNode(room, 'span', '#');
-    chairMark.classList.add('seat_mark');
-    chairMark.classList.add('hide');
-    for (let i = 0; i < columns; i++) {
-        let chairMark = makeNode(room, 'span', chair[i]);
-        chairMark.classList.add('seat_mark');
-    }
-    let ruler = makeNode(room, 'br', '');
+    booked = film.bookedSeats;
+    console.log('foglalt szekek', booked);
 
-    for (let i = 0; i < rows; i++) {
-        let chairMark = makeNode(room, 'span', i + 1);
+    paintIt();
+    //szamok
+
+    function paintIt() {
+        let chairMark = makeNode(room, 'span', '#');
         chairMark.classList.add('seat_mark');
-        for (let j = 0; j < columns; j++) {
-            let paintSeat = makeNode(room, 'span', 'x');
-            paintSeat.classList.add('seat_style');
+        chairMark.classList.add('hide');
+
+        for (let i = 0; i < columns; i++) {
+            let chairMark = makeNode(room, 'span', i + 1);
+            chairMark.classList.add('seat_mark');
         }
         let ruler = makeNode(room, 'br', '');
+
+        //sorok
+        for (let i = 0; i < rows; i++) {
+            let chairMark = makeNode(room, 'span', chair[i]);
+            chairMark.classList.add('seat_mark');
+            //a szekek kirajzolasa
+            for (let j = 0; j < columns; j++) {
+
+                let actualseat = {
+                    row: chair[i].toUpperCase(),
+                    number: j + 1
+                };
+                // console.info(actualseat);
+                let paintSeat = makeNode(room, 'span', 'x');
+                //foglaltsag ellenorzese
+                for (let k = 0; k < booked.length; k++) {
+                    if (booked[k].row === actualseat.row && booked[k].number === actualseat.number) {
+                        // console.log('foglalt szek ellenorzes ', actualseat.row, actualseat.number);
+                        paintSeat.classList.add('booked');
+                    }
+                }
+                paintSeat.classList.add('seat_style');
+
+                paintSeat.addEventListener('click', function foglalo(event) {
+                    if (event.target.classList.contains('booked')) {
+                        // this.classList.removeEvenet('click', foglalo());
+                        console.log('ez a szek foglalt!');
+                    } else {
+                        booked.push(actualseat);
+                        console.log('lefoglalva ', actualseat);
+                        if (room) {
+                            room.innerHTML = '';
+                        }
+                        paintIt();
+                        jegyar(film);
+
+                    }
+                });
+
+
+            }
+            let ruler = makeNode(room, 'br', '');
+        }
     }
 
 }
@@ -123,4 +170,13 @@ function makeNode(parentNode, newTag, content) {
     parentNode.append(newElem);
 
     return newElem;
+}
+
+
+function jegyar(film) {
+    filmInfok(film);
+    fizetendo += film.price;
+    let jegyekSzama = fizetendo / film.price;
+    let kasszaBox = makeNode(infoBox, 'p', `fizetendo osszeg: ${fizetendo}.-HUF \nkiadadno jegyek szama:  ${jegyekSzama}`);
+    kasszaBox.classList.add('kassza_sav');
 }

@@ -99,6 +99,40 @@ label {
 }
 
 .seat_style:hover {
-    background-color: #0606ff;
-    color: #0606ff
+    background-color: #6c6cff;
+    color: #6c6cff;
+}
+
+.booked {
+    background-color: orange;
+    color: orange;
+}
+
+.booked:hover {
+    background-color: red;
+    color: red;
+}
+
+.kassza_sav {
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+    left: 50%;
+    height: 10vh;
+    line-height: 8vh;
+    padding: 10px;
+    transform: translateX(-50%);
+    /*margin: 0 auto;
+    */
+    background-color: rgb(252, 200, 104);
+    border: 1px solid #555;
+    border-radius: 15px;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
 }
